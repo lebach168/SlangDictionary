@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class SlangWord implements Comparable<SlangWord>{
     private String word;
-    ArrayList<String> definition;
+    private String definition;
 
-    public SlangWord(String word, ArrayList<String> definition) {
+    public SlangWord(String word, String definition) {
         this.word = word;
         this.definition = definition;
     }
@@ -15,7 +15,7 @@ public class SlangWord implements Comparable<SlangWord>{
         this.word = word;
     }
 
-    public void setDefinition(ArrayList<String> definition) {
+    public void setDefinition(String definition) {
         this.definition = definition;
     }
 
@@ -23,13 +23,13 @@ public class SlangWord implements Comparable<SlangWord>{
         return word;
     }
 
-    public ArrayList<String> getDefinition() {
+    public String getDefinition() {
         return definition;
     }
 
-    public void addDefinition(String def){
-        this.definition.add(def);
-    }
+//    public void addDefinition(String def){
+//        this.definition.add(def);
+//    }
 
     @Override
     public int compareTo(SlangWord w2) {
