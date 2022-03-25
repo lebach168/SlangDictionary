@@ -75,7 +75,6 @@ public class MyDictionary {
     }
 
 
-
     public static  void  addWord(){
 
     }
@@ -92,10 +91,11 @@ public class MyDictionary {
         System.out.println("Reset tu dien thanh cong!");
     }
 
-//    public static SlangWord randomWord(){
-//
-//        return a;
-//    }
+    public String randomWord(){
+        ArrayList<String> listWords = new ArrayList<>(this.Words.keySet());
+        int randomIndex = new Random().nextInt(listWords.size());
+        return  listWords.get(randomIndex);
+    }
 
     public static void game1(){
 
