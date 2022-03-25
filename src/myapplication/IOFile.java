@@ -3,14 +3,17 @@ import java.io.*;
 import java.util.*;
 
 public class IOFile {
-    public static HashMap<String,String> readDataFromFile(String filepath) throws IOException {
+    public static final String COMMA = "`";
+    public static final String END_LINE = "\n";
+    public static final String FILE_HEADER = "Slang`Meaning";
+    public static HashMap<String,String> readDataFromFile(String filepath)  {
         HashMap<String, String> data = new HashMap<>();
         BufferedReader br = null;
         String line = "";
         try{
             br = new BufferedReader(new FileReader(filepath));
             while((line = br.readLine()) != null){
-                String[] newWord = line.split("`");
+                String[] newWord = line.split(COMMA);
                 if(newWord[0].equals("Slang")){
                     continue;
                 }
@@ -20,14 +23,35 @@ public class IOFile {
             System.out.println("Read file error: "+ e);
         }
         finally {
-            br.close();
+            try {
+                br.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
         return data;
     }
-    public static void saveHistoryWords(){
-
+    public static void writeFile(HashMap<String,String> listWords, String filepath){
+        BufferedWriter  bw = null;
+        try{
+            bw = new BufferedWriter(new FileWriter(filepath));
+            bw.write(FILE_HEADER);
+            Set<String> keySet = listWords.keySet();
+            for(String key:keySet){
+                bw.write(key);
+                bw.write(COMMA);
+                bw.write(listWords.get(key));
+                bw.write(END_LINE);
+            }
+        }catch (Exception e){
+            System.out.println("Write file error: "+e );
+        }finally {
+            try {
+                bw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
-
 
 }
