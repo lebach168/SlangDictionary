@@ -12,7 +12,7 @@ public class IOFile {
         String line = "";
         try{
             br = new BufferedReader(new FileReader(filepath));
-            while((line = br.readLine()) != null){
+            while((line = br.readLine()) != null || !line.equals("")){
                 String[] newWord = line.split(COMMA);
                 if(newWord[0].equals("Slang")){
                     continue;
@@ -36,6 +36,7 @@ public class IOFile {
         try{
             bw = new BufferedWriter(new FileWriter(filepath));
             bw.write(FILE_HEADER);
+            bw.write(END_LINE);
             Set<String> keySet = listWords.keySet();
             for(String key:keySet){
                 bw.write(key);

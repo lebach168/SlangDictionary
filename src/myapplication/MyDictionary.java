@@ -2,32 +2,30 @@ package myapplication;
 import java.io.*;
 import java.util.*;
 
+
 public class MyDictionary {
 
     //Key : Slang Word
     //Value: List of definitions;
-    public final static String ORIGIN_FILE = "slang.txt";
-    public final static String HISTORY_FILE="history.txt";
-    public final static String EDITED_FILE = "edited.txt";
 
     public HashMap<String, String> Words;
     public HashMap<String,String> historyWords;
 
     public MyDictionary()  {
         try{
-            File editedFile = new File(EDITED_FILE);
+            File editedFile = new File(Main.EDITED_FILE);
             if(editedFile.exists()){
-                this.Words = IOFile.readDataFromFile(EDITED_FILE);
+                this.Words = IOFile.readDataFromFile(Main.EDITED_FILE);
             }
             else {
-                this.Words = IOFile.readDataFromFile(ORIGIN_FILE);
+                this.Words = IOFile.readDataFromFile(Main.ORIGIN_FILE);
             }
-            File historyFile = new File(HISTORY_FILE);
+            File historyFile = new File(Main.HISTORY_FILE);
             if(!historyFile.exists()){
                 this.historyWords= new HashMap<>();
             }
             else {
-                this.historyWords = IOFile.readDataFromFile(HISTORY_FILE);
+                this.historyWords = IOFile.readDataFromFile(Main.HISTORY_FILE);
             }
         }catch (Exception e){
             System.out.println("Loi khoi tao");
@@ -75,19 +73,24 @@ public class MyDictionary {
     }
 
 
-    public static  void  addWord(){
-
+    public void addWord(String word, String definition){
+        this.Words.put(word, definition);
     }
-    public static void editWord(){
-
+    public void editWord(String word, String definition){
+        this.Words.replace(word,definition);
     }
-    public static void deleteWord(){ //Confirm truoc khi xoa
-
+    public void deleteWord(String word){ //Confirm truoc khi xoa
+        if(this.Words.containsKey(word)){
+            this.Words.remove(word);
+        }
+        else{
+            System.out.println("Khong tim thay tu trong tu dien!");
+        }
     }
 
-    public void  resetDictionary(){
-        this.Words=IOFile.readDataFromFile(ORIGIN_FILE);
-        IOFile.writeFile(this.Words,EDITED_FILE);
+    public void resetDictionary(){
+        this.Words=IOFile.readDataFromFile(Main.ORIGIN_FILE);
+        IOFile.writeFile(this.Words,Main.EDITED_FILE);
         System.out.println("Reset tu dien thanh cong!");
     }
 
@@ -95,13 +98,6 @@ public class MyDictionary {
         ArrayList<String> listWords = new ArrayList<>(this.Words.keySet());
         int randomIndex = new Random().nextInt(listWords.size());
         return  listWords.get(randomIndex);
-    }
-
-    public static void game1(){
-
-    }
-    public static void game2(){
-
     }
 
 }
