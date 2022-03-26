@@ -8,24 +8,40 @@ public class MyDictionary {
     //Key : Slang Word
     //Value: List of definitions;
 
-    public HashMap<String, String> Words;
-    public HashMap<String,String> historyWords;
+    private HashMap<String, String> Words;
+    private HashMap<String,String> historyWords;
+
+    public HashMap<String, String> getWords() {
+        return Words;
+    }
+
+    public void setWords(HashMap<String, String> words) {
+        Words = words;
+    }
+
+    public HashMap<String, String> getHistoryWords() {
+        return historyWords;
+    }
+
+    public void setHistoryWords(HashMap<String, String> historyWords) {
+        this.historyWords = historyWords;
+    }
 
     public MyDictionary()  {
         try{
-            File editedFile = new File(Main.EDITED_FILE);
+            File editedFile = new File(Application.EDITED_FILE);
             if(editedFile.exists()){
-                this.Words = IOFile.readDataFromFile(Main.EDITED_FILE);
+                this.Words = IOFile.readDataFromFile(Application.EDITED_FILE);
             }
             else {
-                this.Words = IOFile.readDataFromFile(Main.ORIGIN_FILE);
+                this.Words = IOFile.readDataFromFile(Application.ORIGIN_FILE);
             }
-            File historyFile = new File(Main.HISTORY_FILE);
+            File historyFile = new File(Application.HISTORY_FILE);
             if(!historyFile.exists()){
                 this.historyWords= new HashMap<>();
             }
             else {
-                this.historyWords = IOFile.readDataFromFile(Main.HISTORY_FILE);
+                this.historyWords = IOFile.readDataFromFile(Application.HISTORY_FILE);
             }
         }catch (Exception e){
             System.out.println("Loi khoi tao");
@@ -65,13 +81,12 @@ public class MyDictionary {
         HashMap<String, String> SlangWords = new HashMap<>();
         Set<String> keySet = this.Words.keySet();
         for(String key:keySet){
-            if(this.Words.get(key).toUpperCase().contains(keyword.toUpperCase()));
-
-            SlangWords.put(key,this.Words.get(key));
+            if(this.Words.get(key).toUpperCase().contains(keyword.toUpperCase())){
+                SlangWords.put(key,this.Words.get(key));
+            }
         }
         return SlangWords;
     }
-
 
     public void addWord(String word, String definition){
         this.Words.put(word, definition);
@@ -89,8 +104,8 @@ public class MyDictionary {
     }
 
     public void resetDictionary(){
-        this.Words=IOFile.readDataFromFile(Main.ORIGIN_FILE);
-        IOFile.writeFile(this.Words,Main.EDITED_FILE);
+        this.Words=IOFile.readDataFromFile(Application.ORIGIN_FILE);
+        IOFile.writeFile(this.Words, Application.EDITED_FILE);
         System.out.println("Reset tu dien thanh cong!");
     }
 
