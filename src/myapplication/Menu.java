@@ -122,10 +122,24 @@ public class Menu {
             System.out.println("Khong tim thay tu");
             return;
         }
-
-
+        System.out.println(word+" co dinh nghia : " + tempList.get(word));
+        System.out.print("Nhap lai slang word (Nhan enter de bo qua): ");
+        String newWord = sc.next();
+        System.out.print("Nhap lai dinh nghia (Nhan enter de bo qua): ");
+        String newDefinition = sc.next();
+        if(newWord.equals("")){
+            newWord = word;
+        }
+        if(newDefinition.equals("")){
+            newDefinition = tempList.get(word);
+        }
+        dictionary.editWord(newWord,newDefinition);
+        if(!newWord.equals(word)){
+            dictionary.deleteWord(word);
+        }
+        System.out.println("Chinh sua thong tin thanh cong");
     }
-    public static void deleteWordFromDictionary(MyDictionary dictionary){
+    public static void deleteWordFromDictionary(MyDictionary dictionary){ //Confirm truoc khi xoa
         Menu.cls();
         Scanner sc = new Scanner(System.in);
         System.out.println("------------------Xoa tu------------------");
@@ -136,6 +150,20 @@ public class Menu {
         if(!tempList.containsKey(word)){
             System.out.println("Khong tim thay tu");
             return;
+        }
+        System.out.println("Ban co chac chan muon xoa? (Yes / No)");
+        String confirm = sc.next().toUpperCase();
+
+        switch (confirm){
+            case "YES":
+                dictionary.deleteWord(word);
+                System.out.println("Xoa thanh cong");
+                break;
+            case "NO":
+                System.out.println("Quay tro ve");
+                break;
+            default:
+                System.out.println("Lua chon khong hop le, tro ve");
         }
     }
     public static void slangWordOfTheDay(MyDictionary dictionary){

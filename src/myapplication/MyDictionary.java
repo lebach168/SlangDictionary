@@ -94,12 +94,9 @@ public class MyDictionary {
     public void editWord(String word, String definition){
         this.Words.replace(word,definition);
     }
-    public void deleteWord(String word){ //Confirm truoc khi xoa
+    public void deleteWord(String word){
         if(this.Words.containsKey(word)){
             this.Words.remove(word);
-        }
-        else{
-            System.out.println("Khong tim thay tu trong tu dien!");
         }
     }
 

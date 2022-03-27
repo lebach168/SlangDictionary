@@ -42,7 +42,6 @@ public class Application {
                 dictionary.resetDictionary();
                 break;
             case "8":
-
                 break;
             case "9":
                 break;
