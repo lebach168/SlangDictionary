@@ -18,6 +18,9 @@ public class MyDictionary {
     public void setWords(HashMap<String, String> words) {
         Words = words;
     }
+    public String getDefinition(String key){
+        return this.Words.get(key);
+    }
 
     public HashMap<String, String> getHistoryWords() {
         return historyWords;
@@ -52,6 +55,7 @@ public class MyDictionary {
     }
     public void showAll(HashMap <String,String> listWords){
         if(!listWords.isEmpty()){
+            //Tham khảo cách duyệt phần tử trong hashmap
             Set<String> keySet = listWords.keySet();
             for (String key : keySet) {
                 this.showWord(key);
@@ -74,10 +78,16 @@ public class MyDictionary {
     }
 
     public Boolean searchByWord(String key){
+        if(key.equals("")){
+            System.out.println("Khong duoc de trong");
+        }
         key=key.toUpperCase();
         return this.Words.containsKey(key);
     }
     public HashMap<String, String> searchDefinitionByKeyword(String keyword){
+        if(keyword.equals("")){
+            System.out.println("Khong duoc de trong");
+        }
         HashMap<String, String> SlangWords = new HashMap<>();
         Set<String> keySet = this.Words.keySet();
         for(String key:keySet){

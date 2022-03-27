@@ -21,7 +21,7 @@ public class Menu {
         System.out.println("--------------------------------------------------------------------");
     }
     public static void cls()
-    {
+    {   //Hàm tham khảo
         try{
             String operatingSystem = System.getProperty("os.name"); //Check the current operating system
 
@@ -77,10 +77,7 @@ public class Menu {
             newHistoryWords.putAll(listWords);
             dictionary.setHistoryWords(newHistoryWords);
             IOFile.writeFile(dictionary.getHistoryWords() , Application.HISTORY_FILE);
-
-
         }
-
         //Luu lai vao lich su tim kiem
     }
     public static void manageHistory(MyDictionary dictionary){
@@ -163,18 +160,66 @@ public class Menu {
                 System.out.println("Quay tro ve");
                 break;
             default:
-                System.out.println("Lua chon khong hop le, tro ve");
+                System.out.println("Lua chon khong hop le, tro ve menu chinh");
         }
     }
-    public static void slangWordOfTheDay(MyDictionary dictionary){
+    public static void randomSlangWord(MyDictionary dictionary){
+        Menu.cls();
+        System.out.println("Tu ngau nhien: ");
+        dictionary.showWord(dictionary.randomWord());
+    }
+    public static void game(MyDictionary dictionary, int type){//Type 1 / 2
+        Menu.cls();
+        Scanner sc = new Scanner(System.in);
+        ArrayList<String> listWords = new ArrayList<>();
+        ArrayList<String> listDefinitions = new ArrayList<>();
 
-    }
-    public static void game1(MyDictionary dictionary){
-        Menu.cls();
-        Scanner sc = new Scanner(System.in);
-    }
-    public static void game2(MyDictionary dictionary){
-        Menu.cls();
-        Scanner sc = new Scanner(System.in);
+        HashMap <String, String> question  = new HashMap<>();
+        for( int i = 0;i<4;i++){
+            listWords.add(dictionary.randomWord());
+            listDefinitions.add(dictionary.getDefinition(listWords.get(i)));
+            question.put(listWords.get(i),listDefinitions.get(i));
+        }
+        Collections.shuffle(listWords);
+        if(type==1 ){
+            System.out.println("Tu "+ listWords.get(1) + " co y nghia la: ");
+            for(int i = 0;i<4;i++){
+                System.out.println(i + ". "+ listDefinitions.get(i));
+            }
+            System.out.println("-------------------------");
+            System.out.print("Nhap cau tra loi cua ban: ");
+            int ans = sc.nextInt();
+            if(ans != 1 || ans != 2 || ans != 3 || ans != 4){
+                System.out.println("Nhap dap an khong hop le");
+                return;
+            }
+            if (dictionary.getDefinition(listWords.get(1)).equals(listDefinitions.get(ans))){
+                System.out.println("Qua chinh xac");
+            }
+            else {
+                System.out.println("Sai mat roi");
+            }
+        }
+        else {
+            System.out.println(listDefinitions.get(1) + " : ");
+            for(int i = 0;i<4;i++){
+                System.out.println(i + ". "+ listWords.get(i));
+            }
+            System.out.println("-------------------------");
+            System.out.print("Nhap cau tra loi cua ban: ");
+            int ans = sc.nextInt();
+            if(ans != 1 || ans != 2 || ans != 3 || ans != 4){
+                System.out.println("Nhap dap an khong hop le");
+                return;
+            }
+            if (dictionary.getDefinition(listWords.get(ans)).equals(listDefinitions.get(1))){
+                System.out.println("Qua chinh xac");
+            }
+            else {
+                System.out.println("Sai mat roi");
+            }
+        }
+
+
     }
 }

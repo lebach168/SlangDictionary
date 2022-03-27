@@ -42,10 +42,13 @@ public class Application {
                 dictionary.resetDictionary();
                 break;
             case "8":
+                menu.randomSlangWord(dictionary);
                 break;
             case "9":
+                menu.game(dictionary,1);
                 break;
             case "10":
+                menu.game(dictionary,2);
                 break;
             case "11":
                 System.exit(0);
