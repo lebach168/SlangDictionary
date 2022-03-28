@@ -9,7 +9,15 @@ public class MyDictionary {
     //Value: List of definitions;
 
     private HashMap<String, String> Words;
-    private HashMap<String,String> historyWords;
+    private ArrayList<String> historyWords;
+
+    public ArrayList<String> getHistoryWords() {
+        return historyWords;
+    }
+
+    public void setHistoryWords(ArrayList<String> historyWords) {
+        this.historyWords = historyWords;
+    }
 
     public HashMap<String, String> getWords() {
         return Words;
@@ -22,13 +30,6 @@ public class MyDictionary {
         return this.Words.get(key);
     }
 
-    public HashMap<String, String> getHistoryWords() {
-        return historyWords;
-    }
-
-    public void setHistoryWords(HashMap<String, String> historyWords) {
-        this.historyWords = historyWords;
-    }
 
     public MyDictionary()  {
         try{
@@ -41,19 +42,21 @@ public class MyDictionary {
             }
             File historyFile = new File(Application.HISTORY_FILE);
             if(!historyFile.exists()){
-                this.historyWords= new HashMap<>();
+                this.historyWords= new ArrayList<String>();
             }
             else {
-                this.historyWords = IOFile.readDataFromFile(Application.HISTORY_FILE);
+                this.historyWords = IOFile.readHistoryFile(Application.HISTORY_FILE);
             }
         }catch (Exception e){
             System.out.println("Loi khoi tao");
         }
     }
     public void showWord(String key){
-        System.out.println(key + " - " + this.Words.get(key));
+        String definition = this.getDefinition(key);
+        System.out.println(String.format("%-15s | %-55s\n",key,definition));
     }
     public void showAll(HashMap <String,String> listWords){
+        System.out.println(String.format("%-15s | %55s\n","   Slang","        Dinh nghia                            "));
         if(!listWords.isEmpty()){
             //Tham khảo cách duyệt phần tử trong hashmap
             Set<String> keySet = listWords.keySet();
@@ -67,13 +70,12 @@ public class MyDictionary {
     }
     public void showHistory(){
         if(!this.historyWords.isEmpty()){
-            Set<String> keySet = this.historyWords.keySet();
-            for (String key : keySet) {
-                this.showWord(key);
+            for (String word : this.historyWords) {
+                this.showWord(word);
             }
         }
         else {
-            System.out.println("Empty");
+            System.out.println("Khong co lich su tìm kiem");
         }
     }
 
@@ -111,7 +113,8 @@ public class MyDictionary {
     }
 
     public void resetDictionary(){
-        this.Words=IOFile.readDataFromFile(Application.ORIGIN_FILE);
+        this.Words.clear();
+        this.Words.putAll(IOFile.readDataFromFile(Application.ORIGIN_FILE));
         IOFile.writeFile(this.Words, Application.EDITED_FILE);
         System.out.println("Reset tu dien thanh cong!");
     }

@@ -7,7 +7,6 @@ public class Application {
     public final static String HISTORY_FILE="history.txt";
     public final static String EDITED_FILE = "edited.txt";
     public static void main (String[] args) {
-
         MyDictionary dictionary =  new MyDictionary();
         runMainMenu(dictionary);
     }

@@ -13,7 +13,7 @@ public class IOFile {
         String line = "";
         try{
             br = new BufferedReader(new FileReader(filepath));
-            while((line = br.readLine()) != null || !line.equals("")){
+            while((line = br.readLine()) != null){
                 String[] newWord = line.split(COMMA);
                 if(newWord[0].equals("Slang")){
                     continue;
@@ -55,5 +55,44 @@ public class IOFile {
             }
         }
     }
-
+    public static ArrayList<String> readHistoryFile(String filepath){
+        ArrayList<String> data = new ArrayList<>();
+        BufferedReader br = null;
+        String line = "";
+        try{
+            br = new BufferedReader(new FileReader(filepath));
+            while((line = br.readLine()) != null){
+                data.add(line);
+            }
+            Collections.reverse(data);
+        }catch (Exception e){
+            System.out.println("Read file error: "+ e);
+        }
+        finally {
+            try {
+                br.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return data;
+    }
+    public static void writeHistoryFile(ArrayList<String> listWords,String filepath){
+        BufferedWriter  bw = null;
+        try{
+            bw = new BufferedWriter(new FileWriter(filepath));
+            for(String word:listWords){
+                bw.write(word);
+                bw.write(END_LINE);
+            }
+        }catch (Exception e){
+            System.out.println("Write file error: "+e );
+        }finally {
+            try {
+                bw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

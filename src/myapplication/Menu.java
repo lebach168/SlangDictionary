@@ -2,8 +2,6 @@ package myapplication;
 
 import java.util.*;
 
-
-
 public class Menu {
     public static void mainMenu(){
         System.out.println("--------------------------Slang Dictionary--------------------------");
@@ -47,15 +45,21 @@ public class Menu {
 
     public static void search1(MyDictionary dictionary){
         Menu.cls();
+        System.out.println("--------------Tim kiem Slang--------------");
         System.out.print("Nhap slang word muon tim kiem : ");
         Scanner sc = new Scanner(System.in);
-        String word = sc.next();
+        String word = sc.next().toUpperCase();
+        if(word.equals("")){
+            return;
+        }
         if(dictionary.searchByWord(word)){
-            dictionary.showWord(word);
-            HashMap <String, String> newHistoryWords = dictionary.getHistoryWords();
-            newHistoryWords.put(word, dictionary.getWords().get(word));
+            HashMap<String,String> temp= new HashMap<String,String>();
+            temp.put(word,dictionary.getDefinition(word));
+            dictionary.showAll(temp);
+            ArrayList<String> newHistoryWords = dictionary.getHistoryWords();
+            newHistoryWords.add(word);
             dictionary.setHistoryWords(newHistoryWords);
-            IOFile.writeFile(dictionary.getHistoryWords() , Application.HISTORY_FILE);
+            IOFile.writeHistoryFile(dictionary.getHistoryWords() , Application.HISTORY_FILE);
         }
         else{
             System.out.println("Khong tim thay tu!");
@@ -64,43 +68,45 @@ public class Menu {
     }
     public static void search2(MyDictionary dictionary){
         Menu.cls();
+        System.out.println("--------------Tra dinh nghia--------------");
         System.out.print("Tim kiem dinh nghia lien quan : ");
         Scanner sc = new Scanner(System.in);
         String keyword = sc.next();
         HashMap <String, String> listWords = dictionary.searchDefinitionByKeyword(keyword);
         if(listWords.size()==0) {
-            System.out.print("Khong tim thay tu phu hop");
+            System.out.println("Khong tim thay tu phu hop");
         }
         else {
             dictionary.showAll(listWords);
-            HashMap <String, String> newHistoryWords = dictionary.getHistoryWords();
-            newHistoryWords.putAll(listWords);
+            ArrayList<String> newHistoryWords = dictionary.getHistoryWords();
+            newHistoryWords.addAll(listWords.keySet());
             dictionary.setHistoryWords(newHistoryWords);
-            IOFile.writeFile(dictionary.getHistoryWords() , Application.HISTORY_FILE);
+            IOFile.writeHistoryFile(dictionary.getHistoryWords() , Application.HISTORY_FILE);
         }
         //Luu lai vao lich su tim kiem
     }
     public static void manageHistory(MyDictionary dictionary){
         Menu.cls();
+        System.out.println("--------------Lich su tim kiem--------------");
         System.out.println("Cac tu da tim kiem: ");
         dictionary.showHistory();
         System.out.println("Nhap d de xoa lich su tim kiem, Nhan phim bat kì khac de quay lai ");
         Scanner sc = new Scanner(System.in);
-        String keyboardInput = sc.next();
+        String keyboardInput = sc.nextLine();
         if(keyboardInput.equals("D")|| keyboardInput.equals("d")){
-            HashMap <String, String> newHistoryWords = dictionary.getHistoryWords();
+            ArrayList<String> newHistoryWords = dictionary.getHistoryWords();
             newHistoryWords.clear();
             dictionary.setHistoryWords(newHistoryWords);
-            IOFile.writeFile(dictionary.getHistoryWords(), Application.HISTORY_FILE);
+            IOFile.writeHistoryFile(dictionary.getHistoryWords(), Application.HISTORY_FILE);
             System.out.println("Xoa lich su tim kiem thanh cong!");
         }
     }
     public static void addNewWord(MyDictionary dictionary){
         Menu.cls();
         Scanner sc = new Scanner(System.in);
-        System.out.println("------------------Them tu moi------------------");
+        System.out.println("--------------Them tu moi--------------");
         System.out.print("Nhap slang word: ");
-        String word = sc.next();
+        String word = sc.next().toUpperCase();
         System.out.print("Nhap dinh nghia cua tu: (Cac nghia cua tu cach nhau boi | )");
         String definition = sc.next();
         dictionary.addWord(word, definition);
@@ -110,9 +116,9 @@ public class Menu {
     public static void editSlangWord(MyDictionary dictionary){
         Menu.cls();
         Scanner sc = new Scanner(System.in);
-        System.out.println("------------------Chinh sua tu------------------");
+        System.out.println("--------------Chinh sua tu--------------");
         System.out.print("Nhap slang word muon chinh sua: ");
-        String word = sc.next();
+        String word = sc.next().toUpperCase();
         HashMap <String,String> tempList= new HashMap<>();
         tempList.putAll(dictionary.getWords());
         if(!tempList.containsKey(word)){
@@ -121,7 +127,7 @@ public class Menu {
         }
         System.out.println(word+" co dinh nghia : " + tempList.get(word));
         System.out.print("Nhap lai slang word (Nhan enter de bo qua): ");
-        String newWord = sc.next();
+        String newWord = sc.next().toUpperCase();
         System.out.print("Nhap lai dinh nghia (Nhan enter de bo qua): ");
         String newDefinition = sc.next();
         if(newWord.equals("")){
@@ -139,9 +145,9 @@ public class Menu {
     public static void deleteWordFromDictionary(MyDictionary dictionary){ //Confirm truoc khi xoa
         Menu.cls();
         Scanner sc = new Scanner(System.in);
-        System.out.println("------------------Xoa tu------------------");
+        System.out.println("--------------Xoa tu--------------");
         System.out.print("Nhap slang word muon xoa: ");
-        String word = sc.next();
+        String word = sc.next().toUpperCase();
         HashMap <String,String> tempList= new HashMap<>();
         tempList.putAll(dictionary.getWords());
         if(!tempList.containsKey(word)){
@@ -170,6 +176,7 @@ public class Menu {
     }
     public static void game(MyDictionary dictionary, int type){//Type 1 / 2
         Menu.cls();
+        System.out.println("--------------Tro choi do vui--------------");
         Scanner sc = new Scanner(System.in);
         ArrayList<String> listWords = new ArrayList<>();
         ArrayList<String> listDefinitions = new ArrayList<>();
@@ -184,15 +191,16 @@ public class Menu {
         if(type==1 ){
             System.out.println("Tu "+ listWords.get(1) + " co y nghia la: ");
             for(int i = 0;i<4;i++){
-                System.out.println(i + ". "+ listDefinitions.get(i));
+                System.out.println((i+1) + ". "+ listDefinitions.get(i));
             }
             System.out.println("-------------------------");
             System.out.print("Nhap cau tra loi cua ban: ");
             int ans = sc.nextInt();
-            if(ans != 1 || ans != 2 || ans != 3 || ans != 4){
+            if(ans != 1 && ans != 2 && ans != 3 && ans != 4){
                 System.out.println("Nhap dap an khong hop le");
                 return;
             }
+            ans-=1;
             if (dictionary.getDefinition(listWords.get(1)).equals(listDefinitions.get(ans))){
                 System.out.println("Qua chinh xac");
             }
@@ -203,15 +211,16 @@ public class Menu {
         else {
             System.out.println(listDefinitions.get(1) + " : ");
             for(int i = 0;i<4;i++){
-                System.out.println(i + ". "+ listWords.get(i));
+                System.out.println((i+1) + ". "+ listWords.get(i));
             }
             System.out.println("-------------------------");
             System.out.print("Nhap cau tra loi cua ban: ");
             int ans = sc.nextInt();
-            if(ans != 1 || ans != 2 || ans != 3 || ans != 4){
+            if(ans != 1 && ans != 2 && ans != 3 && ans != 4){
                 System.out.println("Nhap dap an khong hop le");
                 return;
             }
+            ans-=1;
             if (dictionary.getDefinition(listWords.get(ans)).equals(listDefinitions.get(1))){
                 System.out.println("Qua chinh xac");
             }
