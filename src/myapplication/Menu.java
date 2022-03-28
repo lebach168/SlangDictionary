@@ -106,9 +106,9 @@ public class Menu {
         Scanner sc = new Scanner(System.in);
         System.out.println("--------------Them tu moi--------------");
         System.out.print("Nhap slang word: ");
-        String word = sc.next().toUpperCase();
+        String word = sc.nextLine().toUpperCase();
         System.out.print("Nhap dinh nghia cua tu: (Cac nghia cua tu cach nhau boi | )");
-        String definition = sc.next();
+        String definition = sc.nextLine();
         dictionary.addWord(word, definition);
         IOFile.writeFile(dictionary.getWords(), Application.EDITED_FILE);
 
@@ -118,7 +118,7 @@ public class Menu {
         Scanner sc = new Scanner(System.in);
         System.out.println("--------------Chinh sua tu--------------");
         System.out.print("Nhap slang word muon chinh sua: ");
-        String word = sc.next().toUpperCase();
+        String word = sc.nextLine().toUpperCase();
         HashMap <String,String> tempList= new HashMap<>();
         tempList.putAll(dictionary.getWords());
         if(!tempList.containsKey(word)){
@@ -127,9 +127,9 @@ public class Menu {
         }
         System.out.println(word+" co dinh nghia : " + tempList.get(word));
         System.out.print("Nhap lai slang word (Nhan enter de bo qua): ");
-        String newWord = sc.next().toUpperCase();
+        String newWord = sc.nextLine().toUpperCase();
         System.out.print("Nhap lai dinh nghia (Nhan enter de bo qua): ");
-        String newDefinition = sc.next();
+        String newDefinition = sc.nextLine();
         if(newWord.equals("")){
             newWord = word;
         }
